@@ -22,12 +22,18 @@ const buttonName = [
     '='
 ];
 
-const buttonArr = buttonName.map(function (value) {
-    return <Button btn={value}/>
-});
 class ButtonGroup extends React.Component {
+    clickHandle = (value) => {
+        this
+            .props
+            .onClick(value);
+
+    }
 
     render() {
+        const buttonArr = buttonName.map((value) => {
+            return <Button value={value} onClick={this.clickHandle}/>
+        });
         return (
             <div className="buttonGroup">
                 {buttonArr}

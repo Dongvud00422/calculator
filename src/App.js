@@ -12,26 +12,74 @@ const container = {
   "box-shadow": "1px 1px 1px #000000"
 }
 
+const buttonName = [
+  'AC',
+  '+/-',
+  '%',
+  '/',
+  '7',
+  '8',
+  '9',
+  '*',
+  '4',
+  '5',
+  '6',
+  '-',
+  '1',
+  '2',
+  '3',
+  '+',
+  '0',
+  '.',
+  '='
+];
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 1000,
-      sum: 0
+      value: 0,
+      sum: 99
     }
   }
 
-  clickHandle = value => {
-    this.setState({
-      value: this.state.value + value
-    });
+  clickHandle = (value) => {
+
+    switch (value) {
+      case 'C':
+        this.setState({value: '0'});
+        buttonName[0] = "AC";
+        break;
+      case 'AC':
+        this.setState({value: '0', sum: 0});
+        buttonName[0] = "AC"
+        value:
+        break;
+      case '+':
+        this.setState({
+          sum: Number(this.state.value),
+          value: 0
+        });
+        break;
+      case '=':
+        this.setState({value: this.state.sum});
+        break;
+      default:
+        this.setState({
+          value: this.state.value + value
+        });
+        buttonName[0] = "C";
+        break;
+    }
+    console.log('sum: ' + this.state.sum + '\nvalue: ' + this.state.value + '\nclick value: ' + value);
   }
 
   render() {
+
     return (
       <div style={container}>
         <Monitor value={this.state.value}/>
-        <ButtonGroup onClick={this.clickHandle}/>
+        <ButtonGroup buttonName={buttonName} onClick={this.clickHandle}/>
       </div>
     );
   }

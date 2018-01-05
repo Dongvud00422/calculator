@@ -97,7 +97,7 @@ class App extends Component {
         break;
 
       case '*':
-        if (this.state.operator === '*') {
+        if (this.state.operator === '=') {
           this.setState({operator: '*', tmpOperator: '*'});
         } else if (this.state.operator === '*') {
           break;
@@ -118,7 +118,7 @@ class App extends Component {
         break;
 
       case '/':
-        if (this.state.operator === '/') {
+        if (this.state.operator === '=') {
           this.setState({operator: '/', tmpOperator: '/'});
         } else if (this.state.operator === '/') {
           break;

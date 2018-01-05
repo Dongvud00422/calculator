@@ -12,8 +12,8 @@ class ButtonGroup extends React.Component {
         const buttonArr = this
             .props
             .buttonName
-            .map((value) => {
-                return <Button value={value} onClick={this.clickHandle}/>
+            .map((value, index) => {
+                return <Button value={value} key={index} onClick={this.clickHandle}/>
             });
         return (
             <div className="buttonGroup">

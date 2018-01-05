@@ -1,14 +1,18 @@
 import React from 'react';
 
 export default class Button extends React.Component {
-    clickHandle = () => {
+    clickHandle = (event) => {
         this
             .props
-            .onClick(this.props.value);
+            .onClick(event.target.value);
     }
     render() {
         return (
-            <button className="btn" onClick={this.clickHandle}>
+            <button
+                type="button"
+                value={this.props.value}
+                className="btn"
+                onClick={this.clickHandle}>
                 {this.props.value}
             </button>
         );

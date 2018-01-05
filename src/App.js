@@ -8,8 +8,8 @@ const container = {
   width: "200px",
   height: "320px",
   "border": "1px solid #000000",
-  "border-radius": "5px",
-  "box-shadow": "1px 1px 1px #000000"
+  "borderRadius": "5px",
+  "boxShadow": "1px 1px 1px #000000"
 }
 
 const buttonName = [
@@ -38,47 +38,167 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
-      sum: 99
+      display: '0',
+      operator: '',
+      tmpOperator: '',
+      tmp: '0',
+      sum: ''
     }
   }
 
   clickHandle = (value) => {
-
     switch (value) {
       case 'C':
-        this.setState({value: '0'});
+        this.setState({display: '0'});
         buttonName[0] = "AC";
         break;
+
       case 'AC':
-        this.setState({value: '0', sum: 0});
+        this.setState({display: '0', sum: ''});
         buttonName[0] = "AC"
-        value:
         break;
+
       case '+':
-        this.setState({
-          sum: Number(this.state.value),
-          value: 0
-        });
+        if (this.state.operator === '=') {
+          this.setState({operator: '+', tmpOperator: '+'});
+        } else if (this.state.operator === '+') {
+          break;
+        } else {
+          this.setState({
+            sum: Number(this.state.tmp) + Number(this.state.sum),
+            display: Number(this.state.tmp) + Number(this.state.sum),
+            operator: '+',
+            tmpOperator: '+'
+          }, () => {
+            console.log(this.state.operator + '=' + this.state.sum);
+          });
+        }
         break;
+
+      case '-':
+        if (this.state.operator === '=') {
+          this.setState({operator: '-', tmpOperator: '-'});
+        } else if (this.state.operator === '-') {
+          break;
+        } else {
+          this.setState({
+            sum: (this.state.sum === '')
+              ? Number(this.state.tmp)
+              : Number(this.state.sum) - Number(this.state.tmp),
+            display: (this.state.sum === '')
+              ? Number(this.state.tmp)
+              : Number(this.state.sum) - Number(this.state.tmp),
+            operator: '-',
+            tmpOperator: '-'
+          }, () => {
+            console.log(this.state.operator);
+          });
+        }
+        break;
+
+      case '*':
+        if (this.state.operator === '*') {
+          this.setState({operator: '*', tmpOperator: '*'});
+        } else if (this.state.operator === '*') {
+          break;
+        } else {
+          this.setState({
+            sum: (this.state.sum === '')
+              ? Number(this.state.tmp)
+              : Number(this.state.tmp) * Number(this.state.sum),
+            display: (this.state.sum === '')
+              ? Number(this.state.tmp)
+              : Number(this.state.tmp) * Number(this.state.sum),
+            operator: '*',
+            tmpOperator: '*'
+          }, () => {
+            console.log(this.state.operator);
+          });
+        }
+        break;
+
+      case '/':
+        if (this.state.operator === '/') {
+          this.setState({operator: '/', tmpOperator: '/'});
+        } else if (this.state.operator === '/') {
+          break;
+        } else {
+          this.setState({
+            sum: (this.state.sum === '')
+              ? Number(this.state.tmp)
+              : Number(this.state.sum) / Number(this.state.tmp),
+            display: (this.state.sum === '')
+              ? Number(this.state.tmp)
+              : Number(this.state.sum) / Number(this.state.tmp),
+            operator: '/',
+            tmpOperator: '/'
+          }, () => {
+            console.log(this.state.operator);
+          });
+        }
+        break;
+
       case '=':
-        this.setState({value: this.state.sum});
+        switch (this.state.tmpOperator) {
+          case '+':
+            this.setState({
+              sum: (Number(this.state.sum + Number(this.state.tmp))),
+              display: (Number(this.state.sum + Number(this.state.tmp))),
+              operator: '='
+            });
+            break;
+          case '-':
+            this.setState({
+              sum: (Number(this.state.sum) - Number(this.state.tmp)),
+              display: (Number(this.state.sum) - Number(this.state.tmp)),
+              operator: '='
+            });
+            break;
+          case '*':
+            this.setState({
+              sum: (Number(this.state.sum) * Number(this.state.tmp)),
+              display: (Number(this.state.sum) * Number(this.state.tmp)),
+              operator: '='
+            });
+            break;
+          case '/':
+            this.setState({
+              sum: (Number(this.state.sum) / Number(this.state.tmp)),
+              display: (Number(this.state.sum) / Number(this.state.tmp)),
+              operator: '='
+            });
+            break;
+        }
         break;
+
       default:
-        this.setState({
-          value: this.state.value + value
-        });
         buttonName[0] = "C";
-        break;
+        if (this.state.display === '0' || this.state.operator !== '') {
+          this
+            .setState({
+              display: value,
+              tmp: value,
+              operator: ''
+            }, function () {
+              console.log('sum: ' + this.state.sum + '\ndisplay: ' + this.state.display);
+            })
+        } else {
+          this.setState({
+            display: this.state.display + value,
+            tmp: this.state.display + value,
+            operator: ''
+          }, () => {
+            console.log('sum: ' + this.state.sum + '\ndisplay: ' + this.state.display);
+          });
+        }
+
     }
-    console.log('sum: ' + this.state.sum + '\nvalue: ' + this.state.value + '\nclick value: ' + value);
   }
 
   render() {
-
     return (
       <div style={container}>
-        <Monitor value={this.state.value}/>
+        <Monitor value={this.state.display}/>
         <ButtonGroup buttonName={buttonName} onClick={this.clickHandle}/>
       </div>
     );

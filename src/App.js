@@ -64,16 +64,14 @@ class App extends Component {
 
       case "+":
         let { operator } = this.state;
-        operator = "+";
         if (operator === "=") {
-          this.setState({ operator});
-        } else
-        if (operator !== "+") {
+          this.setState({ operator: "+" });
+        } else if (operator !== "+") {
           this.setState(
             {
               sum: Number(this.state.tmp) + Number(this.state.sum),
               display: Number(this.state.tmp) + Number(this.state.sum),
-              operator,
+              operator: "+",
               tmpOperator: "+",
             },
             () => {

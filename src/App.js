@@ -187,6 +187,24 @@ class App extends Component {
         }
         break;
 
+      case '%':
+        this.setState({
+          sum: Number(display) / 100,
+          display: Number(display) / 100
+        });
+        break;
+      case '+/-':
+        if (Number(display) > 0) {
+          this.setState({
+            display: '-' + display
+          });
+        } else {
+          this.setState({
+            display: display.slice(1)
+          });
+        }
+        break;
+
       default: // Trường hợp click phím số.
         // Chuyển nút 'AC' thành 'C'.
         buttonName[0] = "C";

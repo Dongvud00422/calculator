@@ -16,7 +16,7 @@ const container = {
   boxShadow: "1px 1px 1px #000000",
 };
 
-const buttonName = [
+export const buttonName = [
   "AC",
   "+/-",
   "%",
@@ -63,16 +63,17 @@ class App extends Component {
         break;
 
       case "+":
-        if (this.state.operator === "=") {
-          this.setState({ operator: "+", tmpOperator: "+" });
-        } else if (this.state.operator === "+") {
-          break;
-        } else {
+        let { operator } = this.state;
+        operator = "+";
+        if (operator === "=") {
+          this.setState({ operator});
+        } else
+        if (operator !== "+") {
           this.setState(
             {
               sum: Number(this.state.tmp) + Number(this.state.sum),
               display: Number(this.state.tmp) + Number(this.state.sum),
-              operator: "+",
+              operator,
               tmpOperator: "+",
             },
             () => {

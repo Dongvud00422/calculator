@@ -106,6 +106,7 @@ describe("App", () => {
     wrapper.instance().clickHandle(".");
     expect(wrapper.state("display")).to.equal("9.9");
   });
+
 });
 
 describe("Monitor", () => {

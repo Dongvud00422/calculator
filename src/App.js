@@ -76,7 +76,7 @@ class App extends Component {
       case "C":
         // Khi ấn nút 'C' thì giá trị trên màn hình (display) sẽ trở về '0' và giữ
         // nguyên kết quả tính toán trước (sum) và chuyển nút 'C' thành 'AC'.
-        this.setState({ display: "0" });
+        this.setState({ display: "0", tmp: "0" });
         buttonName[0] = "AC";
         break;
 
@@ -162,6 +162,7 @@ class App extends Component {
           display: result,
           operator: "=",
           dotCount: 1,
+          tmp: tmp === "0" ? result : tmp,
         });
         break;
 

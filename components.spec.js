@@ -107,11 +107,25 @@ describe("App", () => {
     expect(wrapper.state("display")).to.equal("9.9");
   });
 
-  it("devide for zero",()=>{
-    const wrapper = shallow(<App/>);
-    wrapper.setState({sum:1,tmpOperator:"/",display:"0"});
+  it("devide for zero", () => {
+    const wrapper = shallow(<App />);
+    wrapper.setState({ sum: 1, tmpOperator: "/", display: "0" });
     wrapper.instance().clickHandle("=");
     expect(wrapper.state("display")).to.equal(Infinity);
+  });
+
+  it("click <operator Button> after click equal", () => {
+    const wrapper = shallow(<App />);
+    wrapper.setState({
+      sum: 2.6,
+      display: "2.6",
+      tmp: "1.3",
+      operator: "=",
+    });
+    wrapper.instance().clickHandle("+");
+    expect(wrapper.state("tmpOperator")).to.equal("+");
+    expect(wrapper.state("tmp")).to.equal("2.6");
+    expect(wrapper.state("operator")).to.equal("+");
   });
 });
 

@@ -107,6 +107,12 @@ describe("App", () => {
     expect(wrapper.state("display")).to.equal("9.9");
   });
 
+  it("devide for zero",()=>{
+    const wrapper = shallow(<App/>);
+    wrapper.setState({sum:1,tmpOperator:"/",display:"0"});
+    wrapper.instance().clickHandle("=");
+    expect(wrapper.state("display")).to.equal(Infinity);
+  });
 });
 
 describe("Monitor", () => {

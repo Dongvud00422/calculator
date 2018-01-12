@@ -246,7 +246,7 @@ class App extends Component {
               operator: "",
               tmpOperator: "",
               tmp: "0",
-              sum: clickedValue,
+              sum: "",
               dotCount: 0,
             },
             () => {

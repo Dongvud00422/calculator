@@ -128,11 +128,19 @@ describe("App", () => {
     expect(wrapper.state("operator")).to.equal("+");
   });
 
-  it("click a float number after click equal",()=>{
-    const wrapper = shallow(<App/>);
-    wrapper.setState({display:"2.",dotCount:1,operator:''});
+  it("click a float number after click equal", () => {
+    const wrapper = shallow(<App />);
+    wrapper.setState({ display: "2.", dotCount: 1, operator: "" });
     wrapper.instance().clickHandle("5");
     expect(wrapper.state("display")).to.equal("2.5");
+  });
+
+  it("case 1 . = ", () => {
+    const wrapper = shallow(<App />);
+    wrapper.setState({ display: "1.", operator: "", tmpOperator: "" });
+    wrapper.instance().clickHandle("=");
+    expect(wrapper.state("display")).to.equal("1");
+    expect(wrapper.state("sum")).to.equal(1);
   });
 });
 

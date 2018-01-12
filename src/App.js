@@ -166,45 +166,25 @@ class App extends Component {
 
       case "=":
         if (tmpOperator === "") {
-          this.setState({ sum: display, operator: "=" }, () => {
-            console.log(
-              "sum: " +
-                this.state.sum +
-                "\ntmp: " +
-                this.state.tmp +
-                "\ndisplay: " +
-                this.state.display +
-                "\n operator: " +
-                this.state.operator+
-                "\n dot: " +
-                this.state.dotCount,
-            );
+          this.setState({
+            sum: Number(display),
+            operator: "=",
+            display:
+              display.indexOf(".") === display.length - 1
+                ? display.slice(0,display.length-1)
+                : display,
           });
           break;
         }
 
         result = calcutationCase(tmpOperator, sum, tmp);
-        this.setState(
-          {
-            sum: result,
-            display: result,
-            operator: "=",
-            dotCount: 1,
-            tmp: tmp === "0" ? result : tmp,
-          },
-          () => {
-            console.log(
-              "sum: " +
-                this.state.sum +
-                "\ntmp: " +
-                this.state.tmp +
-                "\ndisplay: " +
-                this.state.display +
-                "\n operator: " +
-                this.state.operator,
-            );
-          },
-        );
+        this.setState({
+          sum: result,
+          display: result,
+          operator: "=",
+          dotCount: 1,
+          tmp: tmp === "0" ? result : tmp,
+        });
         break;
 
       case ".":
@@ -240,75 +220,33 @@ class App extends Component {
         buttonName[0] = "C";
         // Click số sau khi click '='
         if (operator === "=") {
-          this.setState(
-            {
-              display: clickedValue,
-              operator: "",
-              tmpOperator: "",
-              tmp: "0",
-              sum: "",
-              dotCount: 0,
-            },
-            () => {
-              console.log(
-                "sum: " +
-                  this.state.sum +
-                  "\ntmp: " +
-                  this.state.tmp +
-                  "\ndisplay: " +
-                  this.state.display +
-                  "\n operator: " +
-                  this.state.operator,
-              );
-            },
-          );
+          this.setState({
+            display: clickedValue,
+            operator: "",
+            tmpOperator: "",
+            tmp: "0",
+            sum: "",
+            dotCount: 0,
+          });
         } else if (display === "0" || operator !== "") {
           // 1. Nếu màn hình đang hiển thị số '0' thì bỏ số '0' và hiển thị (display) giá
           // trị vừa click đồng thời gán giá trị đó cho biến tạm (temp).
           // 2. Sau khi click toán tử (+,-,*,/) thì số được click sẽ là toán hạng mới.
-          this.setState(
-            {
-              display: clickedValue,
-              tmp: clickedValue,
-              dotCount: 0,
-              operator: "",
-            },
-            () => {
-              console.log(
-                "sum: " +
-                  this.state.sum +
-                  "\ntmp: " +
-                  this.state.tmp +
-                  "\ndisplay: " +
-                  this.state.display +
-                  "\n operator: " +
-                  this.state.operator,
-              );
-            },
-          );
+          this.setState({
+            display: clickedValue,
+            tmp: clickedValue,
+            dotCount: 0,
+            operator: "",
+          });
         } else {
           // Ngược lại ta cộng chuỗi giá trị vừa click với chuỗi trước đang hiển thị trên
           // mành hình (display) và gán ngược trở lại cho biến tạm (tmp) & biến hiển thị
           // (display)
-          this.setState(
-            {
-              display: display + clickedValue,
-              tmp: display + clickedValue,
-              operator: "",
-            },
-            () => {
-              console.log(
-                "sum: " +
-                  this.state.sum +
-                  "\ntmp: " +
-                  this.state.tmp +
-                  "\ndisplay: " +
-                  this.state.display +
-                  "\n operator: " +
-                  this.state.operator,
-              );
-            },
-          );
+          this.setState({
+            display: display + clickedValue,
+            tmp: display + clickedValue,
+            operator: "",
+          });
         }
     }
   };

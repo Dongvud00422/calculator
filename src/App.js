@@ -98,8 +98,20 @@ class App extends Component {
         if (operator === "" && sum !== "") {
           // Trường hợp thay đổi toán tử  so với ban đầu (vd: đang + chuyển sang -).
           result = calcutationCase(tmpOperator, sum, tmp);
-          this.setState({ sum: result, display: result, tmp: result });
-          this.setState({ operator: "+", tmpOperator: "+", tmp: display });
+          this.setState({
+            sum: result,
+            display: result,
+            tmp: result,
+            operator: "+",
+            tmpOperator: "+",
+          });
+          break;
+        } else if (operator !== "") {
+          this.setState({
+            tmp: display,
+            operator: "+",
+            tmpOperator: "+",
+          });
           break;
         }
         // Trường hợp sau khi click số ta click button toán tử.
@@ -107,8 +119,10 @@ class App extends Component {
           sum: Number(sum) + Number(tmp),
           // Kết quả mới = kết quả cũ  +  toán hạng cuối cùng nhập vào.
           display: Number(sum) + Number(tmp),
+          operator: "+",
+          tmpOperator: "+",
+          tmp: display,
         });
-        this.setState({ operator: "+", tmpOperator: "+", tmp: display });
         break;
 
       case "-":
@@ -152,18 +166,43 @@ class App extends Component {
 
       case "=":
         if (tmpOperator === "") {
-          this.setState({ sum: display, operator: "=" });
+          this.setState({ sum: display, operator: "=" }, () => {
+            console.log(
+              "sum: " +
+                this.state.sum +
+                "\ntmp: " +
+                this.state.tmp +
+                "\ndisplay: " +
+                this.state.display +
+                "\n operator: " +
+                this.state.operator,
+            );
+          });
           break;
         }
 
         result = calcutationCase(tmpOperator, sum, tmp);
-        this.setState({
-          sum: result,
-          display: result,
-          operator: "=",
-          dotCount: 1,
-          tmp: tmp === "0" ? result : tmp,
-        });
+        this.setState(
+          {
+            sum: result,
+            display: result,
+            operator: "=",
+            dotCount: 1,
+            tmp: tmp === "0" ? result : tmp,
+          },
+          () => {
+            console.log(
+              "sum: " +
+                this.state.sum +
+                "\ntmp: " +
+                this.state.tmp +
+                "\ndisplay: " +
+                this.state.display +
+                "\n operator: " +
+                this.state.operator,
+            );
+          },
+        );
         break;
 
       case ".":

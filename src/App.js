@@ -175,7 +175,9 @@ class App extends Component {
                 "\ndisplay: " +
                 this.state.display +
                 "\n operator: " +
-                this.state.operator,
+                this.state.operator+
+                "\n dot: " +
+                this.state.dotCount,
             );
           });
           break;
@@ -241,7 +243,7 @@ class App extends Component {
           this.setState(
             {
               display: clickedValue,
-              operator: "0",
+              operator: "",
               tmpOperator: "",
               tmp: "0",
               sum: clickedValue,

@@ -127,6 +127,13 @@ describe("App", () => {
     expect(wrapper.state("tmp")).to.equal("2.6");
     expect(wrapper.state("operator")).to.equal("+");
   });
+
+  it("click a float number after click equal",()=>{
+    const wrapper = shallow(<App/>);
+    wrapper.setState({display:"2.",dotCount:1,operator:''});
+    wrapper.instance().clickHandle("5");
+    expect(wrapper.state("display")).to.equal("2.5");
+  });
 });
 
 describe("Monitor", () => {

@@ -104,38 +104,49 @@ class App extends Component {
             tmp: result,
             operator: "+",
             tmpOperator: "+",
+            dotCount: 0,
           });
-          break;
         } else if (operator !== "") {
           this.setState({
             tmp: display,
             operator: "+",
             tmpOperator: "+",
+            dotCount: 0,
           });
-          break;
         }
         // Trường hợp sau khi click số ta click button toán tử.
         this.setState({
           sum: Number(sum) + Number(tmp),
           // Kết quả mới = kết quả cũ  +  toán hạng cuối cùng nhập vào.
           display: Number(sum) + Number(tmp),
+          tmp: display,
           operator: "+",
           tmpOperator: "+",
-          tmp: display,
+          dotCount: 0,
         });
         break;
 
       case "-":
         if (operator === "" && sum !== "") {
           result = calcutationCase(tmpOperator, sum, tmp);
-          this.setState({ sum: result, display: result, tmp: result });
+          this.setState({
+            sum: result,
+            display: result,
+            tmp: result,
+          });
         } else if (operator === "") {
           this.setState({
             sum: sum === "" ? Number(tmp) : Number(sum) - Number(tmp),
             display: sum === "" ? Number(tmp) : Number(sum) - Number(tmp),
           });
         }
-        this.setState({ operator: "-", tmpOperator: "-", tmp: display });
+
+        this.setState({
+          operator: "-",
+          tmpOperator: "-",
+          tmp: display,
+          dotCount: 0,
+        });
         break;
 
       case "*":
@@ -148,7 +159,13 @@ class App extends Component {
             display: sum === "" ? Number(tmp) : Number(sum) * Number(tmp),
           });
         }
-        this.setState({ operator: "*", tmpOperator: "*", tmp: display });
+
+        this.setState({
+          operator: "*",
+          tmpOperator: "*",
+          tmp: display,
+          dotCount: 0,
+        });
         break;
 
       case "/":
@@ -161,7 +178,12 @@ class App extends Component {
             display: sum === "" ? Number(tmp) : Number(sum) / Number(tmp),
           });
         }
-        this.setState({ operator: "/", tmpOperator: "/", tmp: display });
+        this.setState({
+          operator: "/",
+          tmpOperator: "/",
+          tmp: display,
+          dotCount: 0,
+        });
         break;
 
       case "=":
@@ -169,9 +191,10 @@ class App extends Component {
           this.setState({
             sum: Number(display),
             operator: "=",
+            dotCount: 0,
             display:
               display.indexOf(".") === display.length - 1
-                ? display.slice(0,display.length-1)
+                ? display.slice(0, display.length - 1)
                 : display,
           });
           break;
@@ -191,6 +214,13 @@ class App extends Component {
         // Nếu chưa có dấu '.' thì cộng chuỗi dấu '.' vào chuỗi hiển thị (display) trước
         // đó. Ngược lại thì bỏ qua.
         if (dotCount === 0) {
+          if (operator !== "") {
+            this.setState({
+              display: "0.",
+              dotCount: 1,
+            });
+            break;
+          }
           this.setState({
             display: display + clickedValue,
             dotCount: 1,
@@ -200,7 +230,7 @@ class App extends Component {
 
       case "%":
         this.setState({
-          display: Number(display) / 100,
+          display: String(Number(display) / 100),
         });
         break;
       case "+/-":
@@ -208,10 +238,12 @@ class App extends Component {
           this.setState({
             display: "-" + display,
           });
-        } else {
+        } else if (Number(display) < 0) {
           this.setState({
             display: display.slice(1),
           });
+        } else {
+          break;
         }
         break;
 
@@ -220,6 +252,14 @@ class App extends Component {
         buttonName[0] = "C";
         // Click số sau khi click '='
         if (operator === "=") {
+          if (dotCount === 1) {
+            this.setState({
+              display: display + clickedValue,
+              tmp: display + clickedValue,
+              operator: "",
+            });
+            break;
+          }
           this.setState({
             display: clickedValue,
             operator: "",
@@ -229,6 +269,14 @@ class App extends Component {
             dotCount: 0,
           });
         } else if (display === "0" || operator !== "") {
+          if (dotCount === 1) {
+            this.setState({
+              display: display + clickedValue,
+              tmp: display + clickedValue,
+              operator: "",
+            });
+            break;
+          }
           // 1. Nếu màn hình đang hiển thị số '0' thì bỏ số '0' và hiển thị (display) giá
           // trị vừa click đồng thời gán giá trị đó cho biến tạm (temp).
           // 2. Sau khi click toán tử (+,-,*,/) thì số được click sẽ là toán hạng mới.

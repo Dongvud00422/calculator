@@ -47,7 +47,7 @@ describe("App", () => {
     const wrapper = shallow(<App />);
     wrapper.setState({ display: "999" });
     wrapper.instance().clickHandle("%");
-    expect(wrapper.state("display")).to.equal(9.99);
+    expect(wrapper.state("display")).to.equal("9.99");
   });
 
   it("Click <+/- Button> should switch betwen negative / positive", () => {
@@ -141,6 +141,25 @@ describe("App", () => {
     wrapper.instance().clickHandle("=");
     expect(wrapper.state("display")).to.equal("1");
     expect(wrapper.state("sum")).to.equal(1);
+  });
+
+  it("case 1.3 + .2", () => {
+    const wrapper = shallow(<App />);
+    wrapper.setState({
+      display: "0.",
+      dotCount: 1,
+      operator: "+",
+      sum: 1.3,
+    });
+    wrapper.instance().clickHandle("2");
+    expect(wrapper.state("display")).to.equal("0.2");
+  });
+
+  it("click <% button> while display is 0", () => {
+    const wrapper = shallow(<App />);
+    wrapper.setState({ display: "0" });
+    wrapper.instance().clickHandle("%");
+    expect(wrapper.state("display")).to.equal("0");
   });
 });
 
